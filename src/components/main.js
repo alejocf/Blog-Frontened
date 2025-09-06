@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 import Comments from "./comments";
-import NewPost from "./newPost";
+import { FaRegComment } from "react-icons/fa";
 
 export default function Main () {
   const [dataPosts, setDataPosts] = useState([])
@@ -29,29 +29,33 @@ export default function Main () {
 
 
   return (
-    <main className="row-start-2 col-start-2 flex justify-center bg-emerald-800" >
-      <div>
+    <main className="row-start-2 col-start-2 flex" >
+      <div className="w-full">
         {
           dataStatus?
             <div>
               {
                 dataPosts[0].map((posts) => {
                   return (
-                    <div key={posts.id} className="flex flex-col bg-blue-500 m-2" >
+                    <div key={posts.id} className="flex flex-col mb-10 w-full" >
                       <div>
                         <div className="flex justify-between">
-                          <span>{posts.user.username}</span>
+                          <div className="flex flex-nowrap">
+                            <p className="font-extrabold" >{posts.title}</p>
+                            <span className="text-gray-500 font-extrabold ml-2.5" >@{posts.user.username}</span>
+                          </div>
                           <p>{posts.publication_date}</p>
                         </div>
                         <div>
-                          <p>{posts.title}</p>
                           <p>{posts.description}</p>
                         </div>
                       </div>
 
                       <div>
                         <span onClick={() => showComments(posts.comments)} >
-                          <button>Coments</button>
+                          <button>
+                            <FaRegComment />
+                          </button>
                         </span>
                       </div>
                     </div>
