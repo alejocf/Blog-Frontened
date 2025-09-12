@@ -3,30 +3,31 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Profile () {
-  // const [profile, setProfile] = useState([])
+  const [profile, setProfile] = useState([])
 
-  // const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
 
-  // if (!token) {
-  //   return
-  // }
+  if (!token) {
+    return <p>You don't have an account</p>
+  }
 
-  // const get_profile = async () => {
-  //   const dataProfile = await fetch('https://blogapi-vuov.onrender.com/api/my-profile/', {
-  //     headers: {
-  //       'Authorization': `Bearer ${token}`,
-  //     }
-  //   })
-  //   .then((request) => request.json())
-  //   .then((data) => {
-  //     setProfile([data])
-  //   })
-  //   console.log('profile', profile);
+  const get_profile = async () => {
+    const dataProfile = await fetch('https://blogapi-vuov.onrender.com/api/my-profile/', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then((request) => request.json())
+    .then((data) => {
+      setProfile([data])
+      console.log('profile: ', profile);
 
-  // }
+    })
 
-  // get_profile()
+  }
+
+  get_profile()
 
 
 
@@ -39,7 +40,7 @@ export default function Profile () {
           <Link href='/edit-profile/'>Edit Profile</Link>
         </div>
 
-        {/* <div>
+        <div>
           {
             profile ?
               profile.map((profile, index) => {
@@ -48,14 +49,14 @@ export default function Profile () {
                     <img src={profile.profile_photo} />
                     <p>Bio: {profile.bio}</p>
                     <p>Instagram: {profile.instagram}</p>
-                    <p>Instagram: {profile.instagram}</p>
+                    <p>Twitter: {profile.instagram}</p>
                     <p>Birthday: {profile.birthday}</p>
                   </div>
                 )
               })
             : <p>You don't have an account</p>
           }
-        </div> */}
+        </div>
 
 
 
