@@ -9,6 +9,7 @@ export default function MyPosts () {
   const [messageStatus, setMessageStatus] = useState('')
   // const [token, setToken] = useState('')
   const [loadingStatus, setLoadingStatus] = useState(true)
+  const [Loading, setLoading] = useState('')
 
   // setToken(localStorage.getItem('token'))
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -16,10 +17,9 @@ export default function MyPosts () {
 
   useEffect(() => {
     if (!token) {
-      setLoadingStatus(false)
-      return
+      return <p>You're not login</p>
     }
-
+    setLoading('Loading...')
     const get_my_posts = async () => {
       const dataAPI = await fetch('https://blogapi-vuov.onrender.com/api/my-posts/', {
         headers: {
@@ -32,8 +32,13 @@ export default function MyPosts () {
       if (dataAPI.ok) {
         const data = await dataAPI.json()
         setDataPosts(data)
-        setLoadingStatus(false)
+        setLoading('')
       }
+
+      if (dataPosts == []) {
+        setLoading("You don't have any posts yet")
+      }
+
     }
     get_my_posts()
   }, [token])
@@ -80,8 +85,8 @@ export default function MyPosts () {
   }
 
 
-  if (loadingStatus) return <p>Loading...</p>
-  if (!token) return <p>Please sig in</p>
+  // if (loadingStatus) return <p>Loading...</p>
+  // if (!token) return <p>Please sig in</p>
 
 
   return (
@@ -108,6 +113,7 @@ export default function MyPosts () {
         </form>
       </div>
 
+      <div>{Loading}</div>
 
       <div>
         {

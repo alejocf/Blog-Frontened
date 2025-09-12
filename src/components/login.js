@@ -7,10 +7,11 @@ export default function Login () {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [messageStatus, setMessageStatus] = useState('')
+  const [loading, setLoading] = useState('')
 
   const handleSubmit = async (e) => {
     console.log('token', localStorage.getItem('token'));
-
+    setLoading('Loading...')
     e.preventDefault()
 
     try {
@@ -33,6 +34,7 @@ export default function Login () {
         localStorage.setItem('refresh', data.refresh)
 
         setMessageStatus('* Login succesfully, token save')
+        setLoading('')
         setUsername('')
         setPassword('')
       }
@@ -55,6 +57,8 @@ export default function Login () {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="text-gray-100">{messageStatus}</div>
+          <div className="text-gray-100">{loading}</div>
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm/6 font-medium text-gray-100">Username</label>

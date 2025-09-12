@@ -8,18 +8,19 @@ export default function Main () {
   const [dataStatus, setDataStatus] = useState(false)
   const [commentsStatus, setCommentsStatus] = useState(false)
   const [dataComments, setDataComments] = useState(null)
+  const [loading, setLoading] = useState('Loading...')
 
   const get_posts = async () => {
+
     const dataAPI = await fetch('https://blogapi-vuov.onrender.com/api/posts/')
       .then((request) => request.json())
       .then((data) => {
         setDataPosts([data])
         setDataStatus(true)
-        // console.log('dataposts: ', dataPosts);
-        // console.log('data post [0]', dataPosts[0]);
-        // console.log('comments:', dataPosts[0][0].comments);
+        setLoading('')
       })
-    }
+
+  }
 
 
   const showComments = (comments) => {
@@ -27,12 +28,14 @@ export default function Main () {
     setDataComments(comments)
   }
 
+  get_posts()
 
   return (
     <main className="row-start-2 col-start-2 flex" >
+      <div>{loading}</div>
       <div className="w-full">
         {
-          dataStatus?
+          dataStatus &&
             <div>
               {
                 dataPosts[0].map((posts) => {
@@ -72,10 +75,10 @@ export default function Main () {
 
             </div>
 
-          : <p>There is not any post</p>
         }
-        <button onClick={get_posts}>show data</button>
       </div>
+
+
     </main>
   )
 }
