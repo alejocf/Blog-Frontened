@@ -1,4 +1,4 @@
-import CreateAccount from "@/components/createAccount";
+import CreateAccount from "@/components/authentication/createAccount";
 
 export default function CreateAccountView () {
   return (

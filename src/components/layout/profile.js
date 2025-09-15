@@ -21,8 +21,6 @@ export default function Profile () {
     .then((request) => request.json())
     .then((data) => {
       setProfile([data])
-      console.log('profile: ', profile);
-
     })
 
   }
@@ -49,7 +47,6 @@ export default function Profile () {
                     <img src={profile.profile_photo} />
                     <p>Bio: {profile.bio}</p>
                     <p>Instagram: {profile.instagram}</p>
-                    <p>Twitter: {profile.instagram}</p>
                     <p>Birthday: {profile.birthday}</p>
                   </div>
                 )

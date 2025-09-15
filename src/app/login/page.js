@@ -1,4 +1,4 @@
-import Login from "@/components/login";
+import Login from "@/components/authentication/login";
 
 
 export default function LoginView () {
