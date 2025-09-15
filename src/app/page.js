@@ -1,6 +1,4 @@
-import Contacts from "@/components/layout/contacts";
-import Main from "@/components/main";
-import Profile from "@/components/layout/profile";
+import Main from "@/components/posts/main";
 
 export default function Home() {
   return (

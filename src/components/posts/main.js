@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
-import Comments from "./comments";
 import { FaRegComment } from "react-icons/fa";
+import Comments from "../comments/comments";
 
 export default function Main () {
   const [dataPosts, setDataPosts] = useState([])
