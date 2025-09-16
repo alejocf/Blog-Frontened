@@ -1,5 +1,6 @@
 'use client'
 
+import { useAuthContext } from "@/contexts/authContext"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -9,45 +10,72 @@ export default function Login () {
   const [messageStatus, setMessageStatus] = useState('')
   const [loading, setLoading] = useState('')
 
+  const { login } = useAuthContext()
+
+
   const handleSubmit = async (e) => {
-    console.log('token', localStorage.getItem('token'));
-    setLoading('Loading...')
     e.preventDefault()
+    setLoading('Loading...')
 
-    try {
-      const post = await fetch('https://blogapi-vuov.onrender.com/api/token/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const success = await login(username, password)
 
-        body: JSON.stringify({
-          username: username,
-          password: password
-        })
-      })
+    setLoading('')
 
-      if (post.ok) {
-        const data = await post.json()
-
-        localStorage.setItem('token', data.access)
-        localStorage.setItem('refresh', data.refresh)
-
-        setMessageStatus('* Login succesfully, token save')
-        setLoading('')
-        setUsername('')
-        setPassword('')
-      }
-
-      else {
-        setMessageStatus('* Invalid Credentials, Try again !!')
-      }
+    if (success) {
+      setMessageStatus('* Login succesfully, token save')
+    } else {
+      setMessageStatus('* Invalid Credentials')
     }
 
-    catch (error) {
-      setMessageStatus('* API conection error')
-    }
+
   }
+
+  // login(username, password)
+
+
+
+
+
+
+  // const handleSubmit = async (e) => {
+  //   console.log('token', localStorage.getItem('token'));
+  //   setLoading('Loading...')
+  //   e.preventDefault()
+
+  //   try {
+  //     const post = await fetch('https://blogapi-vuov.onrender.com/api/token/', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+
+  //       body: JSON.stringify({
+  //         username: username,
+  //         password: password
+  //       })
+  //     })
+
+  //     if (post.ok) {
+  //       const data = await post.json()
+
+  //       localStorage.setItem('token', data.access)
+  //       localStorage.setItem('refresh', data.refresh)
+
+  //       setMessageStatus('* Login succesfully, token save')
+  //       setLoading('')
+  //       setUsername('')
+  //       setPassword('')
+  //     }
+
+  //     else {
+  //       setMessageStatus('* Invalid Credentials, Try again !!')
+  //     }
+  //   }
+
+  //   catch (error) {
+  //     setMessageStatus('* API conection error')
+  //   }
+  // }
 
   return (
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-blue-950">

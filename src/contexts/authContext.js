@@ -7,6 +7,18 @@ export function AuthProvider ({ children }) {
   const [token, setToken] = useState(null)
   const [user, setUser] = useState(null)
 
+  const fetchUser = async (jwToken) => {
+    const userRes = await fetch('https://blogapi-vuov.onrender.com/api/my-profile/', {
+      headers: { 'Authorization': `Bearer ${jwToken}`, }
+    })
+
+    if (userRes.ok) {
+      const userData = await userRes.json()
+      setUser(userData)
+      console.log('user: ', userData);
+    }
+  }
+
   const login = async (username, password) => {
     const res = await fetch('https://blogapi-vuov.onrender.com/api/token/', {
       method: 'POST',
@@ -18,13 +30,10 @@ export function AuthProvider ({ children }) {
       const data = await res.json()
       setToken(data.access)
 
-      const user = await fetch('https://blogapi-vuov.onrender.com/api/my-profile/', {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}`, }
-      })
-
-      const userData = await user.json()
-      setUser(userData)
+      await fetchUser(data.access)
+      console.log('data: ', data);
+      console.log('token: ', token);
+      return true
     }
   }
 

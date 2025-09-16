@@ -1,5 +1,6 @@
 'use client'
 
+import ProtectedRoute from "@/components/ProtectedRoute"
 import { useEffect, useState } from "react"
 
 export default function MyPosts () {
@@ -90,51 +91,53 @@ export default function MyPosts () {
 
 
   return (
-    <div>
+    <ProtectedRoute>
       <div>
-        <h2>Create a new Post</h2>
+        <div>
+          <h2>Create a new Post</h2>
 
-        <form onSubmit={create_post} >
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+          <form onSubmit={create_post} >
+            <input
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
 
-          <input
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+            <input
+              type="text"
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
 
-          <button type="submit">Create post</button>
-        </form>
-      </div>
+            <button type="submit">Create post</button>
+          </form>
+        </div>
 
-      <div>{Loading}</div>
+        <div>{Loading}</div>
 
-      <div>
-        {
-          dataPosts ?
+        <div>
+          {
+            dataPosts ?
+              <div>
+                {
+                  dataPosts.map((posts, index) => {
+                    return (
+                      <div key={index} >
+                      <p>{posts.description}</p>
+                    </div>
+                    )
+                  })
+                }
+              </div>
+            :
             <div>
-              {
-                dataPosts.map((posts, index) => {
-                  return (
-                    <div key={index} >
-                    <p>{posts.description}</p>
-                  </div>
-                  )
-                })
-              }
+              You don't have any posts
             </div>
-          :
-          <div>
-            You don't have any posts
-          </div>
-        }
+          }
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   )
 }
