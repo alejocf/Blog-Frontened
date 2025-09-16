@@ -1,4 +1,5 @@
 'use client'
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -21,6 +22,8 @@ export default function Profile () {
     .then((request) => request.json())
     .then((data) => {
       setProfile([data])
+      console.log('profile', profile);
+
     })
 
   }
@@ -32,31 +35,32 @@ export default function Profile () {
   return (
     <aside className="row-start-2 col-start-1 bg-fuchsia-800" >
       <div className="flex flex-col" >
-        Profile
-        <div>
-          <Link href='/my-posts/'>My Posts</Link>
-          <Link href='/edit-profile/'>Edit Profile</Link>
-        </div>
 
         <div>
           {
             profile ?
               profile.map((profile, index) => {
                 return (
-                  <div key={index} >
-                    <img src={profile.profile_photo} />
+                  <div key={index} className="flex flex-col items-center rounded-3xl" >
+                    <Image
+                      src="/profile-photo.png"
+                      alt="Profile Photo"
+                      width={200}
+                      height={200}
+                    />
                     <p>Bio: {profile.bio}</p>
                     <p>Instagram: {profile.instagram}</p>
                     <p>Birthday: {profile.birthday}</p>
+                    <div>
+                      <Link href='/my-posts/'>My Posts</Link>
+                      <Link href='/edit-profile/'>Edit Profile</Link>
+                    </div>
                   </div>
                 )
               })
             : <p>You don't have an account</p>
           }
         </div>
-
-
-
       </div>
     </aside>
   )
