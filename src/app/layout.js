@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/header";
 import Profile from "@/components/layout/profile";
 import Contacts from "@/components/layout/contacts";
+import { AuthProvider } from "@/contexts/authContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +25,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="grid w-full gap-2 grid-rows-[auto_1fr] grid-cols-[auto_1fr_auto]" >
-          <Header/>
-          <Profile/>
-          {children}
-          <Contacts/>
+          <AuthProvider>
+            <Header/>
+            <Profile/>
+            {children}
+            <Contacts/>
+          </AuthProvider>
         </div>
       </body>
     </html>
