@@ -1,11 +1,14 @@
 'use client'
-import { createContext, useContext, useState } from "react"
+import { useRouter } from "next/navigation"
+import { createContext, useContext, useEffect, useState } from "react"
 
 const AuthContext = createContext()
 
 export function AuthProvider ({ children }) {
   const [token, setToken] = useState(null)
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   const fetchUser = async (jwToken) => {
     const userRes = await fetch('https://blogapi-vuov.onrender.com/api/my-profile/', {
@@ -29,10 +32,10 @@ export function AuthProvider ({ children }) {
     if (res.ok) {
       const data = await res.json()
       setToken(data.access)
-
       await fetchUser(data.access)
-      console.log('data: ', data);
-      console.log('token: ', token);
+      localStorage.setItem('token', data.access)
+      setLoading(false)
+      router.push('/')
       return true
     }
   }
@@ -42,9 +45,18 @@ export function AuthProvider ({ children }) {
     setUser(null)
   }
 
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+      fetchUser(savedToken);
+    }
+    setLoading(false);
+  }, []);
+
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, loading, login, logout }}>
       { children }
     </AuthContext.Provider >
   )

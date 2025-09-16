@@ -2,6 +2,7 @@
 
 import { useAuthContext } from "@/contexts/authContext"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function Login () {
@@ -11,6 +12,8 @@ export default function Login () {
   const [loading, setLoading] = useState('')
 
   const { login } = useAuthContext()
+  const router = useRouter()
+
 
 
   const handleSubmit = async (e) => {
@@ -30,55 +33,9 @@ export default function Login () {
 
   }
 
-  // login(username, password)
-
-
-
-
-
-
-  // const handleSubmit = async (e) => {
-  //   console.log('token', localStorage.getItem('token'));
-  //   setLoading('Loading...')
-  //   e.preventDefault()
-
-  //   try {
-  //     const post = await fetch('https://blogapi-vuov.onrender.com/api/token/', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-
-  //       body: JSON.stringify({
-  //         username: username,
-  //         password: password
-  //       })
-  //     })
-
-  //     if (post.ok) {
-  //       const data = await post.json()
-
-  //       localStorage.setItem('token', data.access)
-  //       localStorage.setItem('refresh', data.refresh)
-
-  //       setMessageStatus('* Login succesfully, token save')
-  //       setLoading('')
-  //       setUsername('')
-  //       setPassword('')
-  //     }
-
-  //     else {
-  //       setMessageStatus('* Invalid Credentials, Try again !!')
-  //     }
-  //   }
-
-  //   catch (error) {
-  //     setMessageStatus('* API conection error')
-  //   }
-  // }
-
   return (
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-blue-950">
+      // <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-blue-950">
+      <div className="bg-blue-950 w-full h-full">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-blue-600">Sign in to your account</h2>
         </div>

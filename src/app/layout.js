@@ -24,14 +24,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="grid w-full gap-2 grid-rows-[auto_1fr] grid-cols-[auto_1fr_auto]" >
+        {/* <div className="grid w-full gap-2 grid-rows-[auto_1fr] grid-cols-[auto_1fr_auto]" > */}
+        {/* <div> */}
           <AuthProvider>
             {/* <Header/> */}
             {/* <Profile/> */}
             {children}
             {/* <Contacts/> */}
           </AuthProvider>
-        </div>
+        {/* </div> */}
       </body>
     </html>
   );

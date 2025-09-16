@@ -5,18 +5,23 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export default function ProtectedRoute ({ children }) {
-  const { token } = useAuthContext
+  const { token, loading } = useAuthContext()
   const router = useRouter()
+  // debugger
 
   useEffect(() => {
-    if (!token) {
+    if (!loading && !token) {
       router.push('/login')
     }
-  }, [token, router])
+  }, [token, loading, router])
 
+
+  if (loading) {
+    return <p>Cargando...</p>
+  }
 
   if (!token) {
-    return <p>Cargando...</p>
+    return <p>Error</p>
   }
 
   return children
