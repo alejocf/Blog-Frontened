@@ -4,14 +4,12 @@ import Link from "next/link";
 
 export default function Header () {
   const { user } = useAuthContext()
-  console.log(user);
-
 
   return (
-    <header className="col-span-3 text-white" >
+    <header className="col-span-3 text-white bg-gradient-to-r from-indigo-600 to-indigo-500 " >
       <div className="flex justify-between p-3 items-center">
-        <Link className="text-blue-500 font-extrabold" href='/'>Home</Link>
-        <div className="text-blue-900 font-extrabold" >
+        <Link className="font-extrabold" href='/'>Home</Link>
+        <div className="font-extrabold" >
         {user ? (
           <>
             <span>Hello {user.first_name}</span>
