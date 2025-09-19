@@ -10,6 +10,8 @@ export default function Main () {
   const [dataComments, setDataComments] = useState(null)
   const [loading, setLoading] = useState('Loading...')
 
+  const [postId, setPostId] = useState(null)
+
   const get_posts = async () => {
 
     const dataAPI = await fetch('https://blogapi-vuov.onrender.com/api/posts/')
@@ -23,9 +25,10 @@ export default function Main () {
   }
 
 
-  const showComments = (comments) => {
+  const showComments = (comments, postId) => {
     setCommentsStatus(true)
     setDataComments(comments)
+    setPostId(postId)
   }
 
   get_posts()
@@ -55,7 +58,7 @@ export default function Main () {
                       </div>
 
                       <div>
-                        <span onClick={() => showComments(posts.comments)} >
+                        <span onClick={() => showComments(posts.comments, posts.id)} >
                           <button>
                             <FaRegComment />
                           </button>
@@ -69,7 +72,7 @@ export default function Main () {
               <div>
                 {
                   commentsStatus &&
-                    <Comments dataComments={dataComments} setCommentsStatus={setCommentsStatus} />
+                    <Comments dataComments={dataComments} setCommentsStatus={setCommentsStatus} postId={postId}/>
                 }
               </div>
 

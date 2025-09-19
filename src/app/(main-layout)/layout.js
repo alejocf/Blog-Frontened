@@ -7,7 +7,7 @@ export default function MainLayout({ children }) {
   return (
     <div className="grid w-full gap-2 grid-rows-[auto_1fr] grid-cols-[auto_1fr_auto]" >
       <Header/>
-      <Profile/>
+      {/* <Profile/> */}
       {children}
       {/* <Contacts/> */}
     </div>
