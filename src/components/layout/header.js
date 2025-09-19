@@ -18,9 +18,9 @@ export default function Header () {
           <span>You're not logued</span>
         )}
         </div>
-        <div className="flex w-32 justify-between">
-          <Link className="bg-blue-500 p-2 rounded-lg" href='/login/' >Login</Link>
-          <Link className="bg-blue-950 p-2 rounded-lg" href='/logout/'>Logout</Link>
+        <div className="flex w-36 justify-between">
+          <Link className="bg-indigo-600 p-2 rounded-lg font-semibold" href='/login/' >Login</Link>
+          <Link className="bg-blue-950 p-2 rounded-lg font-semibold" href='/logout/'>Logout</Link>
         </div>
       </div>
     </header>

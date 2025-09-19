@@ -26,7 +26,7 @@ export default function Main () {
 
 
   const showComments = (comments, postId) => {
-    setCommentsStatus(true)
+    setCommentsStatus(!commentsStatus)
     setDataComments(comments)
     setPostId(postId)
   }
@@ -34,7 +34,7 @@ export default function Main () {
   get_posts()
 
   return (
-    <main className="row-start-2 col-start-2 flex" >
+    <main className="row-start-2 col-start-2 shadow-2xl flex rounded-3xl p-3.5" >
       <div>{loading}</div>
       <div className="w-full">
         {
@@ -43,7 +43,7 @@ export default function Main () {
               {
                 dataPosts[0].map((posts) => {
                   return (
-                    <div key={posts.id} className="flex flex-col mb-10 w-full" >
+                    <div key={posts.id} className="flex flex-col mb-6 w-full p-3.5 rounded-xl border border-gray-400" >
                       <div>
                         <div className="flex justify-between">
                           <div className="flex flex-nowrap">
@@ -64,17 +64,24 @@ export default function Main () {
                           </button>
                         </span>
                       </div>
+
+                      <div>
+                        {
+                          postId == posts.id && commentsStatus ?
+                            <Comments dataComments={dataComments} setCommentsStatus={setCommentsStatus} postId={postId}/>
+                          : null
+                        }
+                      </div>
+
+
+
+
                     </div>
                   )
                 } )
               }
 
-              <div>
-                {
-                  commentsStatus &&
-                    <Comments dataComments={dataComments} setCommentsStatus={setCommentsStatus} postId={postId}/>
-                }
-              </div>
+
 
             </div>
 
