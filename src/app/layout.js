@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Profile from "@/components/layout/profile";
-import Contacts from "@/components/layout/contacts";
+import Contacts from "@/components/layout/users";
 import { AuthProvider } from "@/contexts/authContext";
 import { PostProvider } from "@/contexts/postContext";
 

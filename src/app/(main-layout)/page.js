@@ -1,10 +1,10 @@
-import Main from "@/components/posts/main";
+import Posts from "@/components/posts/posts";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Home() {
   return (
     <ProtectedRoute>
-      <Main/>
+      <Posts />
     </ProtectedRoute>
   )
 }

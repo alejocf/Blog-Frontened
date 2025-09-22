@@ -4,7 +4,7 @@ import { FaRegComment } from "react-icons/fa";
 import Comments from "../comments/comments";
 import { usePostContext } from "@/contexts/postContext";
 
-export default function Main () {
+export default function Posts () {
   const { dataPosts, loading } = usePostContext()
 
   const [commentsStatus, setCommentsStatus] = useState(false)
@@ -18,9 +18,9 @@ export default function Main () {
   }
 
   return (
-    <main className="row-start-2 col-start-2 shadow-2xl overflow-y-auto flex rounded-3xl p-3.5" >
-      <div>{loading}</div>
-      <div className="w-full">
+    <div className="w-full">
+      <span>{loading}</span>
+      <div>
         {
           dataPosts.map((posts) => {
             return (
@@ -58,7 +58,7 @@ export default function Main () {
           } )
         }
       </div>
-    </main>
+    </div>
   )
 }
 

@@ -10,7 +10,7 @@ export default function Profile () {
   const { user } = useAuthContext()
 
   return (
-    <aside className="row-start-2 col-start-1 w-72 ml-6" >
+    <div>
       <div className="flex flex-col shadow-xl mb-7 rounded-2xl" >
           {
             user ?
@@ -47,7 +47,7 @@ export default function Profile () {
                 {/* <p>Birthday: {user.profile.birthday}</p> */}
 
               </div>
-            : <p>You don't have an account</p>
+            : <p>Loading Profile...</p>
           }
       </div>
 
@@ -62,6 +62,6 @@ export default function Profile () {
           Contact
         </span>
       </div>
-    </aside>
+    </div>
   )
 }
