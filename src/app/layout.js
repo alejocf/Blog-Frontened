@@ -4,6 +4,7 @@ import Header from "@/components/layout/header";
 import Profile from "@/components/layout/profile";
 import Contacts from "@/components/layout/contacts";
 import { AuthProvider } from "@/contexts/authContext";
+import { PostProvider } from "@/contexts/postContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
-          {children}
+          <PostProvider>
+            {children}
+          </PostProvider>
         </AuthProvider>
       </body>
     </html>
