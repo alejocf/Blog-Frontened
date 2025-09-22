@@ -1,25 +1,26 @@
 'use client'
-import { Content } from "next/font/google"
-import { useEffect, useState } from "react"
+import { useAuthContext } from "@/contexts/authContext"
+import { usePostContext } from "@/contexts/postContext"
+import { useState } from "react"
 
 export default function NewPost () {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [messageStatus, setMessageStatus] = useState('')
 
+  const { token } = useAuthContext()
+  const { dataPosts, setDataPosts } = usePostContext()
+
   const handleSubmit = async (e) => {
-
-    const accesToken = localStorage.getItem('token')
-    console.log('acces token:', accesToken);
-
     e.preventDefault()
+    setMessageStatus('Loading post creation...')
 
     try {
-      const post = await fetch('https://blogapi-vuov.onrender.com/api/posts/', {
+      const post = await fetch('https://blogapi-vuov.onrender.com/api/my-posts/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accesToken}`,
+          Authorization: `Bearer ${token}`,
         },
 
         body: JSON.stringify({
@@ -29,9 +30,12 @@ export default function NewPost () {
       })
 
       if (post.ok) {
-        setMessageStatus('Post created succesfull')
+        const newPost = await post.json()
+        setDataPosts(prevPosts => [...prevPosts, newPost])
+        setMessageStatus('Post created succesfully')
         setTitle('')
         setDescription('')
+        setTimeout(() => setMessageStatus(''), 3000)
       }
 
       else {
@@ -45,26 +49,38 @@ export default function NewPost () {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} >
+    <div className="mb-8" >
+      <h2 className="text-xl font-semibold mb-5" >Create a new Post</h2>
+      <p>{messageStatus}</p>
+      <form onSubmit={handleSubmit} className="flex flex-col" >
+        <label className="text-lg" >
+          Title
+        </label>
         <input
+          className="border border-indigo-500 rounded-md p-1 mb-2"
           type="text"
+          placeholder="New post"
           value={title}
-          placeholder="Title"
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
 
+        <label className="text-lg" >
+          Description
+        </label>
         <input
+          className="border border-indigo-500 rounded-md p-1 mb-2"
           type="text"
+          placeholder="This is my new post"
           value={description}
-          placeholder="description"
           onChange={(e) => setDescription(e.target.value)}
+          required
         />
 
-        <button type="submit" >Create Post</button>
+        <span className="flex justify-end" >
+          <button type="submit" className="bg-indigo-600 px-3 py-1.5 rounded-sm text-white font-semibold" >Create post</button>
+        </span>
       </form>
-
-      <span>{messageStatus}</span>
     </div>
   )
 }

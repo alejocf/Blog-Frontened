@@ -1,5 +1,6 @@
 'use client'
 
+import NewPost from "@/components/posts/newPost"
 import ProtectedRoute from "@/components/ProtectedRoute"
 import { useAuthContext } from "@/contexts/authContext"
 import { usePostContext } from "@/contexts/postContext"
@@ -8,94 +9,14 @@ import { useEffect, useState } from "react"
 export default function MyPosts () {
 
   const { dataPosts, loading } = usePostContext()
-  const { user, token } = useAuthContext()
-
+  const { user } = useAuthContext()
   const userPost = dataPosts.filter(post => post.user.id == user.id)
-
-  console.log('user post: ', userPost);
-
   const [posts, setPosts] = useState(userPost)
-
-
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [messageStatus, setMessageStatus] = useState('')
-
-  const create_post = async (e) => {
-    e.preventDefault()
-    setMessageStatus('Loading post creation')
-
-    try {
-      const post = await fetch('https://blogapi-vuov.onrender.com/api/my-posts/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-
-        body: JSON.stringify({
-          title: title,
-          description: description
-        })
-      })
-
-      if (post.ok) {
-        const newPost = await post.json()
-        setPosts([...userPost, newPost])
-        setMessageStatus('Post created succesfully')
-        setTitle('')
-        setDescription('')
-      }
-
-      else {
-        setMessageStatus('Invalid Credentials, Try again !!')
-      }
-
-    }
-
-    catch (error) {
-      setMessageStatus('API conection error')
-      setTitle('')
-      setDescription('')
-    }
-  }
-
 
   return (
     <ProtectedRoute>
       <div className="w-full" >
-        <div className="mb-8" >
-          <h2 className="text-xl font-semibold mb-5" >Create a new Post</h2>
-          <p>{messageStatus}</p>
-          <form onSubmit={create_post} className="flex flex-col" >
-            <label className="text-lg" >
-              Title
-            </label>
-            <input
-              className="border border-indigo-500 rounded-md p-1 mb-2"
-              type="text"
-              placeholder="New post"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-
-            <label className="text-lg" >
-              Description
-            </label>
-            <input
-              className="border border-indigo-500 rounded-md p-1 mb-2"
-              type="text"
-              placeholder="This is my new post"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-
-            <span className="flex justify-end" >
-              <button type="submit" className="bg-indigo-600 px-3 py-1.5 rounded-sm text-white font-semibold" >Create post</button>
-            </span>
-          </form>
-        </div>
-
+        <NewPost />
         <div>{loading}</div>
 
         <div>

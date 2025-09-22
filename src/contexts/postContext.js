@@ -19,7 +19,7 @@ export function PostProvider ({ children }) {
   }, [])
 
   return (
-    <PostContext.Provider value={{ dataPosts, loading }} >
+    <PostContext.Provider value={{ dataPosts, setDataPosts, loading }} >
       {children}
     </PostContext.Provider>
   )
