@@ -10,8 +10,8 @@ export default function Profile () {
   const { user } = useAuthContext()
 
   return (
-    <aside className="row-start-2 col-start-1 w-72 mx-7" >
-      <div className="flex flex-col shadow-xl mb-7" >
+    <aside className="row-start-2 col-start-1 w-72 ml-6" >
+      <div className="flex flex-col shadow-xl mb-7 rounded-2xl" >
           {
             user ?
               <div className="flex flex-col items-center" >
@@ -28,7 +28,7 @@ export default function Profile () {
 
                 <div className="flex flex-col text-white font-semibold w-52 mb-3 ">
                   <Link href='/my-posts/' className="flex bg-gradient-to-r from-indigo-600 to-indigo-500  p-2 rounded-sm justify-center mb-3" >My Posts</Link>
-                  <Link href='/edit-profile/' className="flex bg-gradient-to-r from-indigo-600 to-indigo-500  p-2 rounded-sm justify-center"  >Edit Profile</Link>
+                  <Link href='/edit-profile/' className="flex text-indigo-500 bg-indigo-50 border border-indigo-500  p-2 rounded-sm justify-center"  >Edit Profile</Link>
                 </div>
 
                 <div className="flex mb-5">

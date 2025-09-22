@@ -34,7 +34,7 @@ export default function Main () {
   get_posts()
 
   return (
-    <main className="row-start-2 col-start-2 shadow-2xl flex rounded-3xl p-3.5" >
+    <main className="row-start-2 col-start-2 shadow-2xl overflow-y-auto flex rounded-3xl p-3.5" >
       <div>{loading}</div>
       <div className="w-full">
         {
