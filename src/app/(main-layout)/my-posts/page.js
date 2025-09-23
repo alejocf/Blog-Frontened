@@ -5,20 +5,61 @@ import ProtectedRoute from "@/components/ProtectedRoute"
 import { useAuthContext } from "@/contexts/authContext"
 import { usePostContext } from "@/contexts/postContext"
 import { useEffect, useState } from "react"
+import { FaRegTrashCan } from "react-icons/fa6";
 
 export default function MyPosts () {
 
   const { dataPosts, loading } = usePostContext()
-  const { user } = useAuthContext()
-  const userPost = dataPosts.filter(post => post.user.id == user.id)
-  const [posts, setPosts] = useState(userPost)
+  const { user, token } = useAuthContext()
+
+  const [posts, setPosts] = useState([])
+  const [postIdToDelete, setPostIdToDelete] = useState(null)
+  const [messageStatus, setMessageStatus] = useState('')
+
+  useEffect(() => {
+    if (dataPosts && user) {
+      setPosts(dataPosts.filter(post => post.user.id === user.id))
+    }
+  }, [dataPosts, user])
+
+  const show_alert_to_delete_post = async (postId) => {
+    setPostIdToDelete(postId)
+  }
+
+  const delete_post = async () => {
+    if (!postIdToDelete) return
+
+    setMessageStatus('Deleting post...')
+    try {
+      const res = await fetch(`https://blogapi-vuov.onrender.com/api/posts/${postIdToDelete}/`, {
+        method: 'DELETE',
+        headers: {
+          // 'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      })
+
+      if (res.ok) {
+        setMessageStatus('Post was deleted successful')
+        setPosts(prev => prev.filter(post => post.id !== postIdToDelete))
+        setPostIdToDelete(null)
+      } else {
+        setMessageStatus('An error has occurred')
+      }
+    } catch (error) {
+      console.log('error: ', error);
+
+      setMessageStatus('API conection error')
+    }
+  }
+
 
   return (
     <ProtectedRoute>
       <div className="w-full" >
         <NewPost />
-        <div>{loading}</div>
-
+        <span>{loading}</span>
+        <span>{messageStatus}</span>
         <div>
           {
             dataPosts ?
@@ -26,17 +67,45 @@ export default function MyPosts () {
                 {
                   posts.map((posts, index) => {
                     return (
-                      <div key={index} className="flex flex-col mb-6 w-full p-3.5 rounded-xl border border-gray-400"  >
-                        <div className="flex justify-between">
-                          <div className="flex flex-nowrap">
-                            <p className="font-extrabold" >{posts.title}</p>
-                            <span className="text-gray-500 font-extrabold ml-2.5" >@{posts.user.username}</span>
+                      // <div className="flex flex-col items-center mb-6 gap-3" >
+                      <div key={index} className="flex flex-col mb-6" >
+
+                        <div className="flex items-center gap-3" >
+                          <div className={`flex flex-col  w-full p-3.5 rounded-xl border ${ postIdToDelete != posts.id ? 'border-gray-400' : 'border-indigo-500 bg-indigo-100'}`} >
+                            <div className="flex justify-between">
+                              <div className="flex flex-nowrap">
+                                <p className="font-extrabold" >{posts.title}</p>
+                                <span className="text-gray-500 font-extrabold ml-2.5" >@{posts.user.username}</span>
+                              </div>
+                              <p>{posts.publication_date}</p>
+                            </div>
+                            <div>
+                              <p>{posts.description}</p>
+                            </div>
                           </div>
-                          <p>{posts.publication_date}</p>
+
+                          <span onClick={() => show_alert_to_delete_post(posts.id)} >
+                            <FaRegTrashCan />
+                          </span>
                         </div>
-                        <div>
-                          <p>{posts.description}</p>
-                        </div>
+
+                        {
+                          postIdToDelete == posts.id &&
+                            <div className="flex justify-between p-3.5" >
+                              <span>
+                                Are you sure about delete your post?
+                              </span>
+
+                              <div className="flex justify-between w-24 mr-3" >
+                                <button onClick={delete_post} className="bg-indigo-50 border border-indigo-500 text-indigo-500 px-2.5 rounded-md" >
+                                  Yes
+                                </button>
+                                <button onClick={() => setPostIdToDelete(null)} className="bg-indigo-500 text-white px-3 rounded-md" >
+                                  No
+                                </button>
+                              </div>
+                            </div>
+                        }
                       </div>
                     )
                   })
