@@ -6,10 +6,12 @@ import { useAuthContext } from "@/contexts/authContext"
 import { usePostContext } from "@/contexts/postContext"
 import { useEffect, useState } from "react"
 import { FaRegTrashCan } from "react-icons/fa6";
+import { FaRegEdit } from "react-icons/fa";
+import Link from "next/link"
 
 export default function MyPosts () {
 
-  const { dataPosts, loading } = usePostContext()
+  const { dataPosts, loading, setIdToEditPost } = usePostContext()
   const { user, token } = useAuthContext()
 
   const [posts, setPosts] = useState([])
@@ -58,6 +60,7 @@ export default function MyPosts () {
     <ProtectedRoute>
       <div className="w-full" >
         <NewPost />
+        <h2 className="text-xl font-semibold mb-5" >Your Posts</h2>
         <span>{loading}</span>
         <span>{messageStatus}</span>
         <div>
@@ -71,6 +74,14 @@ export default function MyPosts () {
                       <div key={index} className="flex flex-col mb-6" >
 
                         <div className="flex items-center gap-3" >
+                          <Link href={'/my-posts/edit-post/'} >
+                            <span onClick={() => setIdToEditPost(posts.id)} >
+                              <FaRegEdit />
+                            </span>
+                          </Link>
+
+
+
                           <div className={`flex flex-col  w-full p-3.5 rounded-xl border ${ postIdToDelete != posts.id ? 'border-gray-400' : 'border-indigo-500 bg-indigo-100'}`} >
                             <div className="flex justify-between">
                               <div className="flex flex-nowrap">
@@ -91,12 +102,12 @@ export default function MyPosts () {
 
                         {
                           postIdToDelete == posts.id &&
-                            <div className="flex justify-between p-3.5" >
+                            <div className="flex justify-between px-7 items-center" >
                               <span>
                                 Are you sure about delete your post?
                               </span>
 
-                              <div className="flex justify-between w-24 mr-3" >
+                              <div className="flex justify-between gap-3 py-2.5" >
                                 <button onClick={delete_post} className="bg-indigo-50 border border-indigo-500 text-indigo-500 px-2.5 rounded-md" >
                                   Yes
                                 </button>

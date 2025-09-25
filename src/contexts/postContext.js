@@ -6,6 +6,7 @@ const PostContext = createContext()
 
 export function PostProvider ({ children }) {
   const [dataPosts, setDataPosts] = useState([])
+  const [idToEditPost, setIdToEditPost] = useState(null)
   const [loading, setLoading] = useState('Loading...')
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export function PostProvider ({ children }) {
   }, [])
 
   return (
-    <PostContext.Provider value={{ dataPosts, setDataPosts, loading }} >
+    <PostContext.Provider value={{ dataPosts, setDataPosts, loading, idToEditPost, setIdToEditPost }} >
       {children}
     </PostContext.Provider>
   )
