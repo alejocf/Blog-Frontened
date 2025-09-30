@@ -44,15 +44,27 @@ export function AuthProvider ({ children }) {
     setUser(null)
   }
 
+
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      setToken(savedToken);
-      fetchUser(savedToken);
-    }
-    setLoading(false);
-  }, []);
 
+    const validateToken = async () => {
+      if (savedToken) {
+        setToken(savedToken);
+        try {
+          await fetchUser(savedToken)
+        } catch (err) {
+          console.error("Error validando token:", err)
+          localStorage.removeItem("token")
+          setToken(null)
+          setUser(null)
+        }
+      }
+      setLoading(false)
+    };
+
+    validateToken();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token, user, loading, login, logout }}>

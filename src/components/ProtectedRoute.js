@@ -5,18 +5,18 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export default function ProtectedRoute ({ children }) {
-  const { token, loading } = useAuthContext()
+  const { token, user, loading } = useAuthContext()
   const router = useRouter()
   const [checked, setChecked] = useState(false)
 
   useEffect(() => {
     if (!loading) {
-      if (!token) {
+      if (!token || !user) {
         router.replace('/login')
       }
       setChecked(true)
     }
-  }, [token, loading, router])
+  }, [token, user, loading, router])
 
 
   if (loading || !checked) {
@@ -27,7 +27,7 @@ export default function ProtectedRoute ({ children }) {
     )
   }
 
-  if (!token) {
+  if (!token || !user) {
     return null
   }
 
