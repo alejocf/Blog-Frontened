@@ -71,7 +71,7 @@ export default function EditPost () {
 
   return (
     <div className="w-full" >
-      <h2>
+      <h2 className="text-xl font-semibold mb-5" >
         Edit your post here
       </h2>
 
@@ -80,7 +80,7 @@ export default function EditPost () {
         postToEdit[0] && title ?
         <div>
 
-          <div className={'flex flex-col p-3.5 rounded-xl border border-gray-400'} >
+          <div className='flex flex-col p-3.5 rounded-xl border border-gray-400 mb-10' >
             <div className="flex justify-between">
               <div className="flex flex-nowrap">
                 <p className="font-extrabold" >{postToEdit[0].title}</p>
@@ -95,7 +95,7 @@ export default function EditPost () {
 
 
           <form onSubmit={handleSubmit} className="flex flex-col" >
-            <label>Title</label>
+            <label className="font-semibold" >Title</label>
             <input
               className="border border-indigo-500 rounded-md p-1 mb-2"
               type="text"
@@ -104,9 +104,9 @@ export default function EditPost () {
               onChange={(e) => setTitle(e.target.value)}
             />
 
-            <label>Description</label>
+            <label className="font-semibold" >Description</label>
             <input
-              className="border border-indigo-500 rounded-md p-1 mb-2"
+              className="border border-indigo-500 rounded-md p-1 mb-6"
               type="text"
               placeholder="Description"
               value={ description }

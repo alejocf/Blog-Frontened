@@ -2,13 +2,17 @@
 
 import { useAuthContext } from "@/contexts/authContext"
 import Image from "next/image"
+import { FaRegEdit } from "react-icons/fa";
 import { useState } from "react"
+import Link from "next/link";
+import { usePostContext } from "@/contexts/postContext";
 
 export default function Comments ({ dataComments, setCommentsStatus, postId }) {
   const [commentDescription, setCommentDescription] = useState()
   const [loading, setLoading] = useState('')
 
   const { token, user } = useAuthContext()
+  const { setCommentToEdit } = usePostContext()
 
   const handleSubmit = async (e) => {
     setLoading("Loading...");
@@ -43,7 +47,6 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
     }
   }
 
-
   const closeComments = () => {
     setCommentsStatus(false)
   }
@@ -63,15 +66,29 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
                   dataComments.map((comment, index) => {
                     return (
                       <div key={index} className="mb-4">
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-x-2">
                           <Image
-                            className="rounded-full mr-2"
+                            className="rounded-full"
                             src="/profile-photo.png"
                             alt="Profile Photo"
                             width={20}
                             height={20}
                             />
-                          <span>{comment.user.username}</span>
+                          {
+                            user.id == comment.user.id ?
+                              <>
+                                <span>
+                                  You
+                                </span>
+                                <Link href='/edit-comment/' className="flex items-center gap-x-2" onClick={setCommentToEdit(comment)} >
+                                  <span>
+                                    <FaRegEdit />
+                                  </span>
+                                  <p className="font-semibold" >Edit</p>
+                                </Link>
+                              </>
+                              : <span>{comment.user.username}</span>
+                            }
                         </div>
                         <p>{comment.description}</p>
                       </div>

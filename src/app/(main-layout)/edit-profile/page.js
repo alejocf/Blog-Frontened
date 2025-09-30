@@ -71,7 +71,7 @@ export default function EditProfileView () {
           onChange={(e) => setImageProfile(e.target.files[0])}
         /> */}
 
-        <label>Bio</label>
+        <label className="font-semibold" >Bio</label>
         <input
           className="border border-indigo-500 rounded-md p-1 mb-2"
           type="text"
@@ -80,7 +80,7 @@ export default function EditProfileView () {
           onChange={(e) => setBio(e.target.value)}
         />
 
-        <label>Instagram Account</label>
+        <label className="font-semibold" >Instagram Account</label>
         <input
           className="border border-indigo-500 rounded-md p-1 mb-2"
           type="url"
@@ -89,7 +89,7 @@ export default function EditProfileView () {
           onChange={(e) => setInstagramAccount(e.target.value)}
         />
 
-        <label>Birthday</label>
+        <label className="font-semibold" >Birthday</label>
         <input
           className="border border-indigo-500 rounded-md p-1 mb-6"
           type="date"

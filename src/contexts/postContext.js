@@ -7,6 +7,7 @@ const PostContext = createContext()
 export function PostProvider ({ children }) {
   const [dataPosts, setDataPosts] = useState([])
   const [idToEditPost, setIdToEditPost] = useState(null)
+  const [commentToEdit, setCommentToEdit] = useState(null)
   const [loading, setLoading] = useState('Loading...')
 
   useEffect(() => {
@@ -20,7 +21,16 @@ export function PostProvider ({ children }) {
   }, [])
 
   return (
-    <PostContext.Provider value={{ dataPosts, setDataPosts, loading, idToEditPost, setIdToEditPost }} >
+    <PostContext.Provider
+      value={{
+        dataPosts,
+        setDataPosts,
+        loading,
+        idToEditPost,
+        setIdToEditPost,
+        commentToEdit,
+        setCommentToEdit,
+      }} >
       {children}
     </PostContext.Provider>
   )
