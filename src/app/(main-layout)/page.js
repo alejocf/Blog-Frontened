@@ -1,3 +1,4 @@
+import NewPost from "@/components/posts/newPost";
 import Posts from "@/components/posts/posts";
 import ProtectedRoute from "@/components/ProtectedRoute";
 

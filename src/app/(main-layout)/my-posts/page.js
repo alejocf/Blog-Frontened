@@ -36,7 +36,6 @@ export default function MyPosts () {
       const res = await fetch(`https://blogapi-vuov.onrender.com/api/posts/${postIdToDelete}/`, {
         method: 'DELETE',
         headers: {
-          // 'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         }
       })
@@ -50,7 +49,6 @@ export default function MyPosts () {
       }
     } catch (error) {
       console.log('error: ', error);
-
       setMessageStatus('API conection error')
     }
   }
@@ -59,7 +57,7 @@ export default function MyPosts () {
   return (
     <ProtectedRoute>
       <div className="w-full" >
-        <NewPost />
+        {/* <NewPost /> */}
         <h2 className="text-xl font-semibold mb-5" >Your Posts</h2>
         <span>{loading}</span>
         <span>{messageStatus}</span>
@@ -70,17 +68,13 @@ export default function MyPosts () {
                 {
                   posts.map((posts, index) => {
                     return (
-                      // <div className="flex flex-col items-center mb-6 gap-3" >
                       <div key={index} className="flex flex-col mb-6" >
-
                         <div className="flex items-center gap-3" >
                           <Link href={'/my-posts/edit-post/'} >
                             <span onClick={() => setIdToEditPost(posts.id)} >
                               <FaRegEdit />
                             </span>
                           </Link>
-
-
 
                           <div className={`flex flex-col  w-full p-3.5 rounded-xl border ${ postIdToDelete != posts.id ? 'border-gray-400' : 'border-indigo-500 bg-indigo-100'}`} >
                             <div className="flex justify-between">

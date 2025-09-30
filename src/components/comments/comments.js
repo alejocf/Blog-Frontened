@@ -12,7 +12,7 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
   const [loading, setLoading] = useState('')
 
   const { token, user } = useAuthContext()
-  const { setCommentToEdit } = usePostContext()
+  const { setCommentToEdit, setDataPosts } = usePostContext()
 
   const handleSubmit = async (e) => {
     setLoading("Loading...");
@@ -31,12 +31,24 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
         body: formData
       })
 
-      if (!response.ok) {
+      if (response.ok) {
+        const newComment = await response.json()
+        setDataPosts(prevPosts =>
+          prevPosts.map(p =>
+            p.id === newComment.post
+              ? {
+                  ...p,
+                  comments: [newComment, ...p.comments]
+                }
+              : p
+          )
+        )
+        alert('Comment created')
+
+      } else {
         const errorData = await response.json()
         console.error("Error response:", errorData)
         alert("Error to create comment")
-      } else {
-        alert('Comment created')
       }
 
     } catch (error) {
@@ -77,10 +89,10 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
                           {
                             user.id == comment.user.id ?
                               <>
-                                <span>
+                                <span className="text-indigo-600 font-semibold" >
                                   You
                                 </span>
-                                <Link href='/edit-comment/' className="flex items-center gap-x-2" onClick={setCommentToEdit(comment)} >
+                                <Link href='/edit-comment/' className="flex items-center gap-x-2" onClick={() => setCommentToEdit(comment)} >
                                   <span>
                                     <FaRegEdit />
                                   </span>

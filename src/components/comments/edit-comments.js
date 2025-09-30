@@ -3,28 +3,63 @@
 import { useAuthContext } from "@/contexts/authContext"
 import { usePostContext } from "@/contexts/postContext"
 import Image from "next/image"
+import { FaRegTrashCan } from "react-icons/fa6";
 import { useEffect, useState } from "react"
 
 export default function EditCommet () {
   const [commentDescription, setCommentDescription] = useState('')
-  const [post, setPost] = useState([])
-  const [comment, setComment] = useState([])
+  const [postWithCommentToEdit, setPostWithCommentToEdit] = useState([])
+  const [comment, setComment] = useState([])  // change name to "comment". Name clearer
   const [loading, setLoading] = useState(true)
   const [messageStatus, setMessageStatus] = useState('')
+  const [commentAlertToDelete, setCommentAlertToDelete] = useState(false)
 
-  const { commentToEdit, dataPosts } = usePostContext()
+  const { commentToEdit, dataPosts, setDataPosts } = usePostContext()
   const { token } = useAuthContext()
 
   useEffect(() => {
     if (commentToEdit) {
-      setPost(dataPosts.filter(post => post.id == commentToEdit.post))
+      setPostWithCommentToEdit(dataPosts.filter(post => post.id === commentToEdit.post))
       setComment(commentToEdit)
       setCommentDescription(commentToEdit.description)
       setLoading(false)
     }
-  }, [commentToEdit])
+  }, [commentToEdit, dataPosts])
 
-  console.log(comment);
+  const show_alert_to_delete_comment = () => {
+    setCommentAlertToDelete(!commentAlertToDelete)
+  }
+
+  const delete_comment = async (e) => {
+    e.preventDefault()
+    setMessageStatus('Deleting post...')
+
+    try {
+      const res = await fetch(`https://blogapi-vuov.onrender.com/api/comments/${comment.id}/`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      })
+
+      if (res.ok) {
+        setMessageStatus('Comment was deleted successfully')
+        setDataPosts(prevPosts =>
+          prevPosts.map(p =>
+            p.id === postWithCommentToEdit[0].id
+              ? {...p, comments: p.comments.filter(c => c.id !== comment.id) }
+              : p
+          )
+        )
+      } else {
+        setMessageStatus('An error has occurred')
+      }
+
+    } catch (error) {
+      console.log('error: ', error);
+      setMessageStatus('API conection error')
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -53,7 +88,21 @@ export default function EditCommet () {
       })
 
       if (res.ok) {
+        const updatedComment = await res.json()
         setMessageStatus('* Comment edited!')
+
+        setDataPosts(prevPosts =>
+          prevPosts.map(p =>
+            p.id === postWithCommentToEdit[0].id
+              ? {...p, comments: p.comments.map(c =>
+                c.id === comment.id // change name to "comment". Name clearer
+                  ? updatedComment
+                  : c
+                  )
+                }
+              : p
+          )
+        )
       } else {
         setMessageStatus('* An error has occurred')
       }
@@ -74,36 +123,62 @@ export default function EditCommet () {
               <div className="mb-2.5" >
                 <div className="flex justify-between">
                   <div className="flex flex-nowrap">
-                    <p className="font-extrabold" >{post[0].title}</p>
-                    <span className="text-gray-500 font-extrabold ml-2.5" >@{post[0].user.username}</span>
+                    <p className="font-extrabold" >{postWithCommentToEdit[0].title}</p>
+                    <span className="text-gray-500 font-extrabold ml-2.5" >@{postWithCommentToEdit[0].user.username}</span>
                   </div>
-                  <p>{post[0].publication_date}</p>
+                  <p>{postWithCommentToEdit[0].publication_date}</p>
                 </div>
                 <div>
-                  <p>{post[0].description}</p>
+                  <p>{postWithCommentToEdit[0].description}</p>
                 </div>
               </div>
             </div>
 
             <span className="font-semibold" >Your Comment</span>
 
-            <div className='flex flex-col  w-full p-3.5 rounded-xl border border-indigo-500 bg-indigo-100 mb-6 '>
-                <div className="flex items-center gap-x-2">
-                  <Image
-                    className="rounded-full"
-                    src="/profile-photo.png"
-                    alt="Profile Photo"
-                    width={20}
-                    height={20}
-                    />
+            <div className={`flex items-center gap-x-3 ${ !commentAlertToDelete ? 'mb-6' : 'mb-0'}`} >
+              <div className={`flex flex-col  w-full p-3.5 rounded-xl border ${ !commentAlertToDelete ? 'border-gray-400' : 'border-indigo-500 bg-indigo-100'}`}>
+                  <div className="flex items-center gap-x-2">
+                    <Image
+                      className="rounded-full"
+                      src="/profile-photo.png"
+                      alt="Profile Photo"
+                      width={20}
+                      height={20}
+                      />
 
-                  <span>
-                    You
-                  </span>
-                </div>
+                    <span>
+                      You
+                    </span>
+                  </div>
 
-                <p>{comment.description}</p>
+                  <p>{comment.description}</p>
+              </div>
+
+              <span onClick={() => show_alert_to_delete_comment()} >
+                <FaRegTrashCan />
+              </span>
             </div>
+
+
+            {
+              commentAlertToDelete &&
+
+                <div className="flex justify-between items-center mb-6" >
+                  <span>
+                    Are you sure about delete your comment?
+                  </span>
+
+                  <div className="flex justify-between gap-3 py-2.5" >
+                    <button onClick={delete_comment} className="bg-indigo-50 border border-indigo-500 text-indigo-500 px-2.5 rounded-md" >
+                      Yes
+                    </button>
+                    <button onClick={() => setCommentAlertToDelete(false)} className="bg-indigo-500 text-white px-3 rounded-md" >
+                      No
+                    </button>
+                  </div>
+                </div>
+            }
 
             <span>{messageStatus}</span>
 
@@ -118,6 +193,7 @@ export default function EditCommet () {
               />
               <button type="submit" className="bg-indigo-600 px-3 py-1.5 rounded-sm text-white font-semibold">Edit Comment</button>
             </form>
+
           </>
         : <span>Loading...</span>
       }

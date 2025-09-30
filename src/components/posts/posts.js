@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaRegComment } from "react-icons/fa";
 import Comments from "../comments/comments";
 import { usePostContext } from "@/contexts/postContext";
+import NewPost from "./newPost";
 
 export default function Posts () {
   const { dataPosts, loading } = usePostContext()
@@ -19,6 +20,8 @@ export default function Posts () {
 
   return (
     <div className="w-full">
+      <NewPost />
+      <span className="text-xl font-semibold mb-5">Posts</span>
       <span>{loading}</span>
       <div>
         {
