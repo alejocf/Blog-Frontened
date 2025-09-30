@@ -21,8 +21,10 @@ export default function Posts () {
   return (
     <div className="w-full">
       <NewPost />
-      <span className="text-xl font-semibold mb-5">Posts</span>
-      <span>{loading}</span>
+      <div className="flex flex-col" >
+        <span className="text-xl font-semibold mb-5">Posts</span>
+        <span>{loading}</span>
+      </div>
       <div>
         {
           dataPosts.map((posts) => {

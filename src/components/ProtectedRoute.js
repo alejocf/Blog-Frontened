@@ -2,26 +2,33 @@
 
 import { useAuthContext } from "@/contexts/authContext"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export default function ProtectedRoute ({ children }) {
   const { token, loading } = useAuthContext()
   const router = useRouter()
-  // debugger
+  const [checked, setChecked] = useState(false)
 
   useEffect(() => {
-    if (!loading && !token) {
-      router.push('/login')
+    if (!loading) {
+      if (!token) {
+        router.replace('/login')
+      }
+      setChecked(true)
     }
   }, [token, loading, router])
 
 
-  if (loading) {
-    return <p>Cargando...</p>
+  if (loading || !checked) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    )
   }
 
   if (!token) {
-    return <p>Error</p>
+    return null
   }
 
   return children

@@ -5,6 +5,7 @@ import Profile from "@/components/layout/profile";
 import Contacts from "@/components/layout/users";
 import { AuthProvider } from "@/contexts/authContext";
 import { PostProvider } from "@/contexts/postContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,11 +26,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AuthProvider>
-          <PostProvider>
-            {children}
-          </PostProvider>
-        </AuthProvider>
+
+          <AuthProvider>
+            <PostProvider>
+              {children}
+            </PostProvider>
+          </AuthProvider>
       </body>
     </html>
   );
