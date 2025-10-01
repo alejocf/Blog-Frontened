@@ -24,16 +24,12 @@ export default function Users () {
           <p>{loading}</p>
         :
           <div>
-            <h2 className="text-xl font-semibold mb-3" >
-              Users
-            </h2>
-
-            <div>
+            <div className="flex flex-col gap-y-4" >
               {
                 dataUsers &&
                   dataUsers.map((user) => {
                     return(
-                      <div key={user.id} className="flex mb-4 items-center" >
+                      <div key={user.id} className="flex items-center" >
                       <Image
                         className="rounded-full mr-2 "
                         src="/profile-photo.png"

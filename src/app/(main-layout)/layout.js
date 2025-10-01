@@ -12,7 +12,7 @@ export default function MainLayout({ children }) {
         <Header />
       </header>
 
-      <aside className="row-start-2 col-start-1 w-full md:w-72 md:ml-6">
+      <aside className="row-start-2 col-start-1 w-full h-full md:w-72 md:ml-6">
         <Profile />
       </aside>
 
@@ -21,6 +21,9 @@ export default function MainLayout({ children }) {
       </main>
 
       <aside className="hidden lg:block lg:row-start-2 lg:col-start-3 lg:shadow-2xl lg:w-56 lg:p-5 lg:rounded-2xl lg:mr-6">
+        <h2 className="text-xl font-semibold" >
+          Users
+        </h2>
         <Users />
       </aside>
       </div>

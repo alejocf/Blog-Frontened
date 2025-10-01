@@ -9,7 +9,7 @@ export default function Profile () {
   const { user } = useAuthContext()
 
   return (
-    <div className="flex flex-col shadow-xl mb-7 rounded-2xl h-full" >
+    <div className="flex flex-col shadow-xl mb-7 rounded-2xl" >
         {
           user ?
             <div className="flex flex-col items-center" >
