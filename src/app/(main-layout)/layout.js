@@ -6,13 +6,13 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 export default function MainLayout({ children }) {
   return (
     <ProtectedRoute>
-      <div className="flex flex-col w-full md:grid md:grid-rows-[auto_1fr] md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_auto]">
+      <div className="flex flex-col w-full md:h-screen md:grid md:grid-rows-[auto_1fr] md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_auto]">
 
       <header className="col-span-3 text-white bg-gradient-to-r from-indigo-600 to-indigo-500">
         <Header />
       </header>
 
-      <aside className="row-start-2 col-start-1 w-full h-full md:w-72 md:ml-6">
+      <aside className="row-start-2 col-start-1 w-full md:w-72 md:ml-6">
         <Profile />
       </aside>
 

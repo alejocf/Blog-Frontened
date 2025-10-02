@@ -46,50 +46,56 @@ export default function CreateAccount () {
   }
 
   return (
-    <div className="bg-amber-400" >
-      <h2>{messageStatus}</h2>
-      <form className="flex flex-col" onSubmit={handleSubmit} >
-        <label>Name</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
 
-        <label>Last Name</label>
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
+    <section className="flex justify-center items-center bg-gradient-to-br from-indigo-500 to-indigo-900 text-white h-screen">
+        {/* <h2>{messageStatus}</h2> */}
+      <div className="bg-indigo-300 p-10" >
 
-        <label>E-mail</label>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <span className="text-2xl font-bold text-indigo-700" >Create An Account</span>
+        <form className="flex flex-col" onSubmit={handleSubmit} >
+          <label>Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            />
 
-        <label>Username</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+            <label>Last Name</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
 
-        <label>Password</label>
-        <input
-          type="text"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" >Create Account</button>
-      </form>
-    </div>
+            <label>E-mail</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              />
+
+            <label>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+
+            <label>Password</label>
+            <input
+              type="text"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              />
+            <button type="submit" >Create Account</button>
+          </form>
+        </div>
+    </section>
   )
 }
+

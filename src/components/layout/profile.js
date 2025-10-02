@@ -9,37 +9,44 @@ export default function Profile () {
   const { user } = useAuthContext()
 
   return (
-    <div className="flex flex-col shadow-xl mb-7 rounded-2xl" >
-        {
-          user ?
-            <div className="flex flex-col items-center" >
+    <>
+      {
+        user ?
+        <div className="flex flex-col justify-center items-center gap-y-2.5 py-5 shadow-xl rounded-2xl md:flex-col  md:h-full md:justify-normal md:gap-y-5" >
+          <div className="flex items-center justify-center gap-x-2.5 md:flex-col" >
+            <div className="relative w-16 h-16 border border-indigo-500 md:w-48 md:h-48 rounded-full overflow-hidden">
               <Image
-                className="rounded-full mb-1.5"
-                src="/profile-photo.png"
-                alt="Profile Photo"
-                width={200}
-                height={200}
-              />
-
-              <p className="text-2xl font-semibold text-gray-800 mb-2.5" >@{user.username}</p>
-              <p className="mb-2.5" >{user.profile.bio}</p>
-
-              <div className="flex flex-col text-white font-semibold w-52 mb-3 ">
-                <Link href='/my-posts/' className="flex bg-gradient-to-r from-indigo-600 to-indigo-500  p-2 rounded-sm justify-center mb-3" >My Posts</Link>
-                <Link href='/edit-profile/' className="flex text-indigo-500 bg-indigo-50 border border-indigo-500  p-2 rounded-sm justify-center"  >Edit Profile</Link>
-              </div>
-
-              <div className="flex mb-5">
-                <span className="flex justify-center items-center bg-gradient-to-r text-white from-indigo-600 to-indigo-500 p-2.5 rounded-full mx-1.5 " >
-                  <a href={user.profile.instagram}>
-                    <GrInstagram className="text-lg" />
-                  </a>
-                </span>
-              </div>
-
+              src="/profile-photo.png"
+              alt="Profile Photo"
+              fill
+              className="object-cover"
+            />
             </div>
-          : <p>You don't have an account</p>
-        }
-    </div>
+
+            <div className="flex flex-col justify-center items-center" >
+              <p className="text-xl font-semibold text-gray-800" >@{user.username}</p>
+              <p className="text-sm" >{user.profile.bio}</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-y-2.5" >
+            <div className="flex flex-col text-white font-semibold w-52 gap-y-2.5">
+              <Link href='/my-posts/' className="hidden md:flex md:bg-gradient-to-r md:from-indigo-600 to-indigo-500  md:p-2 md:rounded-sm md:justify-center" >My Posts</Link>
+              <Link href='/edit-profile/' className="flex text-indigo-500 bg-indigo-50 border border-indigo-500 rounded-sm justify-center md:p-2"  >Edit Profile</Link>
+            </div>
+
+            <div className="flex">
+              <span className="flex justify-center items-center bg-gradient-to-r text-white from-indigo-600 to-indigo-500 p-2.5 rounded-full mx-1.5 " >
+                <a href={user.profile.instagram}>
+                  <GrInstagram className="text-lg" />
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        : <p>You don't have an account</p>
+      }
+    </>
   )
 }
