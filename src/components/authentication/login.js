@@ -9,7 +9,7 @@ export default function Login () {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [messageStatus, setMessageStatus] = useState('')
-  const [loading, setLoading] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const { login } = useAuthContext()
   const router = useRouter()
@@ -18,11 +18,11 @@ export default function Login () {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading('Loading...')
+    setLoading(true)
 
     const success = await login(username, password)
 
-    setLoading('')
+    setLoading(false)
 
     if (success) {
       setMessageStatus('* Login succesfully, token save')
@@ -34,42 +34,65 @@ export default function Login () {
   }
 
   return (
-      // <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-blue-950">
-      <div className="flex flex-col items-center justify-center bg-blue-950 w-full h-screen p-5">
+      <div className="flex flex-col items-center justify-center w-full h-screen p-5 gap-y-10 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="text-center text-2xl/9 font-bold tracking-tight text-blue-600">Sign in to your account</h2>
+          <h2 className="text-center text-3xl font-bold text-indigo-500">Sign in to your account</h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <div className="text-gray-100">{messageStatus}</div>
-          <div className="text-gray-100">{loading}</div>
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="text-gray-500">{messageStatus}</div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
             <div>
-              <label className="block text-sm/6 font-medium text-gray-100">Username</label>
-              <div className="mt-2">
-                <input id="username" type="text" name="username" required value={username} onChange={(e) => setUsername(e.target.value)} className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+              <label className="text-gray-500">Username</label>
+              <div className="">
+                <input
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="bg-gray-300 w-full rounded-md p-2"
+                  required
+                />
               </div>
             </div>
 
             <div>
               <div className="flex items-center justify-between">
-                <label className="block text-sm/6 font-medium text-gray-100">Password</label>
+                <label className="text-gray-500">Password</label>
               </div>
-              <div className="mt-2">
-                <input id="password" type="password" name="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+
+              <div className="">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-gray-300 w-full rounded-md p-2"
+                  required
+                />
               </div>
             </div>
 
             <div>
-              <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Sign in</button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex w-full justify-center items-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              >
+                {
+                  loading ?
+                  <>
+                    Signing in...
+                    <div className="h-4 w-4 ml-2 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                  </>
+                  : 'Sign in'
+                }
+              </button>
             </div>
+            <p className=".5 text-center text-sm/6 text-gray-400">
+              don't have an acount yet?
+              <Link href="/create-account/" className="font-semibold text-indigo-400 hover:text-indigo-300"> Create one here!</Link>
+            </p>
           </form>
 
-          <p className="mt-10 text-center text-sm/6 text-gray-400">
-            don't have an acount yet?
-            <Link href="/create-account/" className="font-semibold text-indigo-400 hover:text-indigo-300"> Create one here!</Link>
-          </p>
         </div>
       </div>
   )
