@@ -53,8 +53,8 @@ export default function SideBar({ sidebarOpen, setSidebarOpen }) {
 
             {postsAccordion && (
               <div className="flex flex-col ml-2.5 gap-1.5 mt-2 animate-fadeIn">
-                <Link href="/">All Posts</Link>
-                <Link href="/my-posts">My Posts</Link>
+                <Link href="/" onClick={() => setSidebarOpen(false)} >All Posts</Link>
+                <Link href="/my-posts" onClick={() => setSidebarOpen(false)} >My Posts</Link>
               </div>
             )}
           </div>

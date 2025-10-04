@@ -8,14 +8,15 @@ import Link from "next/link";
 import { usePostContext } from "@/contexts/postContext";
 
 export default function Comments ({ dataComments, setCommentsStatus, postId }) {
-  const [commentDescription, setCommentDescription] = useState()
-  const [loading, setLoading] = useState('')
+  const [commentDescription, setCommentDescription] = useState('')
+  const [messageStatus, setMessageStatus] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const { token, user } = useAuthContext()
-  const { setCommentToEdit, setDataPosts } = usePostContext()
+  const { setCommentToEdit, setDataPosts } = usePostContext('')
 
   const handleSubmit = async (e) => {
-    setLoading("Loading...");
+    setLoading(true)
     e.preventDefault()
 
     const formData = new FormData()
@@ -33,6 +34,8 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
 
       if (response.ok) {
         const newComment = await response.json()
+        setLoading(false)
+        setMessageStatus('Comment Created Successfully')
         setDataPosts(prevPosts =>
           prevPosts.map(p =>
             p.id === newComment.post
@@ -43,19 +46,19 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
               : p
           )
         )
-        alert('Comment created')
+        setTimeout(() => setMessageStatus(''), 5000)
 
       } else {
         const errorData = await response.json()
         console.error("Error response:", errorData)
-        alert("Error to create comment")
+        setMessageStatus('Error to create comment')
       }
 
     } catch (error) {
       console.error("Request failed:", error);
-      alert("Error de red");
+      setMessageStatus('API Connection Error')
     } finally {
-      setLoading("");
+      setLoading(false);
     }
   }
 
@@ -65,13 +68,27 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
 
   return (
     <div>
+
+      {messageStatus && (
+        <div className="fixed bottom-5 right-5 z-50 animate-fadeIn">
+          <div className={`px-4 py-2 rounded-lg shadow-lg text-white font-bold
+            ${messageStatus.includes("Successfully")
+              ? "bg-green-600"
+              : messageStatus.includes("Error")
+              ? "bg-red-600"
+              : "bg-indigo-600"
+            }`}
+          >
+            {messageStatus}
+          </div>
+        </div>
+      )}
       <span className="font-bold text" >Comments</span>
 
       <div>
         {
           dataComments.length > 0 ?
             <div>
-              <span>{loading}</span>
 
               <div>
                 {
@@ -123,8 +140,20 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
           onChange={(e) => setCommentDescription(e.target.value)}
         />
         <div className="flex justify-end" >
-          <button type="submit" className="bg-indigo-600 px-3 py-1.5 rounded-sm text-white font-semibold" >
-            Comment
+          <button
+            type="submit"
+            className="flex items-center justify-between bg-indigo-600 px-3 py-1.5 rounded-sm text-white font-semibold"
+            disabled={loading}
+          >
+            {
+              loading ?
+              <>
+                Commenting
+                <div className="h-4 w-4 ml-2 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+              </>
+              : 'Comment'
+            }
+
           </button>
         </div>
       </form>

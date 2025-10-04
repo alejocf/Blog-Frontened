@@ -7,16 +7,18 @@ import { usePostContext } from "@/contexts/postContext"
 import { useEffect, useState } from "react"
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 import Link from "next/link"
 
 export default function MyPosts () {
 
-  const { dataPosts, loading, setIdToEditPost } = usePostContext()
+  const { dataPosts, setIdToEditPost } = usePostContext()
   const { user, token } = useAuthContext()
 
   const [posts, setPosts] = useState([])
   const [postIdToDelete, setPostIdToDelete] = useState(null)
   const [messageStatus, setMessageStatus] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (dataPosts && user) {
@@ -30,7 +32,7 @@ export default function MyPosts () {
 
   const delete_post = async () => {
     if (!postIdToDelete) return
-
+    setLoading(true)
     setMessageStatus('Deleting post...')
     try {
       const res = await fetch(`https://blogapi-vuov.onrender.com/api/posts/${postIdToDelete}/`, {
@@ -41,15 +43,19 @@ export default function MyPosts () {
       })
 
       if (res.ok) {
-        setMessageStatus('Post was deleted successful')
+        setLoading(false)
+        setMessageStatus('Post Was Deleted Successfully')
         setPosts(prev => prev.filter(post => post.id !== postIdToDelete))
         setPostIdToDelete(null)
+        setTimeout(() => setMessageStatus(''), 5000)
       } else {
-        setMessageStatus('An error has occurred')
+        setMessageStatus('An Error Has Occurred')
+        setLoading(false)
       }
     } catch (error) {
       console.log('error: ', error);
-      setMessageStatus('API conection error')
+      setMessageStatus('API Conection Error')
+      setLoading(false)
     }
   }
 
@@ -57,10 +63,27 @@ export default function MyPosts () {
   return (
     <ProtectedRoute>
       <div className="w-full" >
-        {/* <NewPost /> */}
         <h2 className="text-xl font-semibold mb-5" >Your Posts</h2>
-        <span>{loading}</span>
-        <span>{messageStatus}</span>
+
+        {messageStatus && (
+          <div
+            className={`flex justify-between items-center mb-4 p-3 rounded-md text-sm font-medium
+              ${messageStatus.includes("Successfully")
+                ? "bg-green-100 text-green-700 border border-green-300"
+                : messageStatus.includes("Error")
+                ? "bg-red-100 text-red-700 border border-red-300"
+                : "bg-blue-100 text-blue-700 border border-blue-300"
+              }`}
+          >
+            {messageStatus}
+            {
+              messageStatus.includes('Successfully') &&
+                <FaCheckCircle className="text-lg" />
+            }
+          </div>
+        )}
+
+
         <div>
           {
             dataPosts ?
@@ -102,8 +125,19 @@ export default function MyPosts () {
                               </span>
 
                               <div className="flex justify-between gap-3 py-2.5" >
-                                <button onClick={delete_post} className="bg-indigo-50 border border-indigo-500 text-indigo-500 px-2.5 rounded-md" >
-                                  Yes
+                                <button
+                                  onClick={delete_post}
+                                  disabled={loading}
+                                  className="flex justify-center items-center bg-indigo-50 border border-indigo-500 text-indigo-500 px-2.5 rounded-md"
+                                >
+                                  {
+                                    loading ?
+                                      <>
+                                        Deleting
+                                        <div className="h-4 w-4 ml-2 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent"></div>
+                                      </>
+                                    : "Yes"
+                                  }
                                 </button>
                                 <button onClick={() => setPostIdToDelete(null)} className="bg-indigo-500 text-white px-3 rounded-md" >
                                   No

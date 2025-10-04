@@ -2,6 +2,7 @@
 import { useAuthContext } from "@/contexts/authContext"
 import { usePostContext } from "@/contexts/postContext"
 import { useEffect, useState } from "react"
+import { FaCheckCircle } from "react-icons/fa";
 
 export default function EditPost () {
 
@@ -9,6 +10,7 @@ export default function EditPost () {
   const [title, setTitle] = useState(null)
   const [description, setDescription] = useState(null)
   const [messageStatus, setMessageStatus] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const { dataPosts, setDataPosts, idToEditPost } = usePostContext()
   const { token } = useAuthContext()
@@ -34,7 +36,8 @@ export default function EditPost () {
       setMessageStatus("* Post's fields can't be empty")
       return
     }
-    setMessageStatus("Loading...")
+
+    setLoading(true)
 
     const formData = new FormData();
     if (title) formData.append("title", title);
@@ -53,24 +56,47 @@ export default function EditPost () {
 
       if (res.ok) {
         const updatedPost = await res.json()
+        setLoading(false)
+        setMessageStatus('Post Edited Successfully')
         setDataPosts((prevPosts) =>
           prevPosts.map((post) =>
             post.id === idToEditPost ? { ...post, ...updatedPost } : post
           )
         )
-        setMessageStatus('Post edited successfull')
+        setTimeout(() => setMessageStatus(''), 5000)
+
       } else {
-        setMessageStatus('An error has occurred')
+        setMessageStatus('An Error Has Occurred')
+        setLoading(false)
       }
     } catch (error) {
       console.log('error: ', error);
-      setMessageStatus('API conection error')
+      setMessageStatus('API Conection Error')
     }
 
   }
 
   return (
     <div className="w-full" >
+
+      {messageStatus && (
+        <div
+          className={`flex justify-between items-center mb-4 p-3 rounded-md text-sm font-medium
+            ${messageStatus.includes("Successfully")
+              ? "bg-green-100 text-green-700 border border-green-300"
+              : messageStatus.includes("Error")
+              ? "bg-red-100 text-red-700 border border-red-300"
+              : "bg-blue-100 text-blue-700 border border-blue-300"
+            }`}
+        >
+          {messageStatus}
+          {
+            messageStatus.includes('Successfully') &&
+              <FaCheckCircle className="text-lg" />
+          }
+        </div>
+      )}
+
       <h2 className="text-xl font-semibold mb-5" >
         Edit your post here
       </h2>
@@ -112,16 +138,28 @@ export default function EditPost () {
               value={ description }
               onChange={(e) => setDescription(e.target.value)}
             />
-            <button type="submit" className="bg-indigo-600 px-3 py-1.5 rounded-sm text-white font-semibold">Edit Profile</button>
+
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex justify-center items-center w-full bg-indigo-600 px-3 py-1.5 rounded-sm text-white font-semibold"
+              >
+                {
+                  loading ?
+                    <>
+                      Editing Post
+                      <div className="h-4 w-4 ml-2 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                    </>
+                  : 'Edit Post'
+                  }
+                </button>
+              </div>
           </form>
         </div>
 
         : <span>Loading...</span>
       }
-
-
-
-
     </div>
   )
 }
