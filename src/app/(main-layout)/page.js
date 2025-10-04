@@ -1,5 +1,4 @@
-import NewPost from "@/components/posts/newPost";
-import Posts from "@/components/posts/posts";
+import Posts from "@/components/posts/allPosts";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Home() {

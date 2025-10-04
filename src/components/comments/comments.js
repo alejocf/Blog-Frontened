@@ -138,6 +138,7 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
           placeholder="Write a comment..."
           value={commentDescription}
           onChange={(e) => setCommentDescription(e.target.value)}
+          required
         />
         <div className="flex justify-end" >
           <button
