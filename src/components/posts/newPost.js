@@ -33,7 +33,7 @@ export default function NewPost () {
 
       if (post.ok) {
         const newPost = await post.json()
-        setDataPosts(prevPosts => [...prevPosts, newPost])
+        setDataPosts(prevPosts => [newPost, ...prevPosts])
         setTitle('')
         setDescription('')
         setLoading(false)

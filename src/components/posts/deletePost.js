@@ -1,11 +1,12 @@
 'use client'
 import { useAuthContext } from "@/contexts/authContext"
+import { usePostContext } from "@/contexts/postContext"
 import { useState } from "react"
 
 export default function DeletePost ({ setMessageStatus, postIdToDelete, setPostIdToDelete, setPosts }) {
 
   const [loading, setLoading] = useState(false)
-
+  const { setDataPosts } = usePostContext()
   const { token } = useAuthContext()
 
   const delete_post = async () => {
@@ -23,7 +24,7 @@ export default function DeletePost ({ setMessageStatus, postIdToDelete, setPostI
       if (res.ok) {
         setLoading(false)
         setMessageStatus('Post Was Deleted Successfully')
-        setPosts(prev => prev.filter(post => post.id !== postIdToDelete))
+        setDataPosts(prev => prev.filter(post => post.id !== postIdToDelete))
         setPostIdToDelete(null)
         setTimeout(() => setMessageStatus(''), 5000)
       } else {

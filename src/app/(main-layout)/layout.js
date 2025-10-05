@@ -1,5 +1,5 @@
 import Header from "@/components/layout/header";
-import Profile from "@/components/layout/profile";
+import Profile from "@/components/layout/profile/profile";
 import Users from "@/components/layout/users";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
