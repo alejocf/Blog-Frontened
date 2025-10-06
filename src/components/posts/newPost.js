@@ -1,4 +1,5 @@
 'use client'
+import API from "@/config/api";
 import { useAuthContext } from "@/contexts/authContext"
 import { usePostContext } from "@/contexts/postContext"
 import { useState } from "react"
@@ -18,7 +19,7 @@ export default function NewPost () {
     setMessageStatus('Loading post creation...')
 
     try {
-      const post = await fetch('https://blogapi-vuov.onrender.com/api/my-posts/', {
+      const post = await fetch(API.MY_POSTS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

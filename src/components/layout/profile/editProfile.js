@@ -1,4 +1,5 @@
 'use client'
+import API from "@/config/api";
 import { useAuthContext } from "@/contexts/authContext"
 import { useState } from "react"
 import { FaCheckCircle } from "react-icons/fa";
@@ -31,16 +32,14 @@ export default function EditProfile () {
     if (birthday) formData.append("birthday", birthday);
 
     try {
-      const response = await fetch(
-        "https://blogapi-vuov.onrender.com/api/edit-profile/",
-        {
+      const response = await fetch(API.PROFILE, {
           method: "PATCH",
           headers: {
-            Authorization: `Bearer ${accesToken}`,
+          Authorization: `Bearer ${accesToken}`,
           },
-          body: formData,
-        }
-      );
+
+        body: formData,
+      })
 
       if (!response.ok) {
         const errorData = await response.json();

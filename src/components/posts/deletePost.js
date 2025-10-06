@@ -1,4 +1,5 @@
 'use client'
+import API from "@/config/api"
 import { useAuthContext } from "@/contexts/authContext"
 import { usePostContext } from "@/contexts/postContext"
 import { useState } from "react"
@@ -14,7 +15,7 @@ export default function DeletePost ({ setMessageStatus, postIdToDelete, setPostI
     setLoading(true)
     setMessageStatus('Deleting post...')
     try {
-      const res = await fetch(`https://blogapi-vuov.onrender.com/api/posts/${postIdToDelete}/`, {
+      const res = await fetch(`${API.POSTS}${postIdToDelete}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

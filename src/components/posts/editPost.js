@@ -1,4 +1,5 @@
 'use client'
+import API from "@/config/api";
 import { useAuthContext } from "@/contexts/authContext"
 import { usePostContext } from "@/contexts/postContext"
 import { useEffect, useState } from "react"
@@ -45,7 +46,7 @@ export default function EditPost () {
 
 
     try {
-      const res = await fetch(`https://blogapi-vuov.onrender.com/api/posts/${idToEditPost}/`, {
+      const res = await fetch(`${API.POSTS}${idToEditPost}/`, {
         method: 'PATCH',
         headers: {
           // 'Content-Type': 'application/json',

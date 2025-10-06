@@ -1,4 +1,5 @@
 'use client'
+import API from "@/config/api"
 import { useRouter } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
 
@@ -11,7 +12,7 @@ export function AuthProvider ({ children }) {
   const router = useRouter()
 
   const fetchUser = async (jwToken) => {
-    const userRes = await fetch('https://blogapi-vuov.onrender.com/api/my-profile/', {
+    const userRes = await fetch(API.MY_PROFILE, {
       headers: { 'Authorization': `Bearer ${jwToken}`, }
     })
 
@@ -22,7 +23,7 @@ export function AuthProvider ({ children }) {
   }
 
   const login = async (username, password) => {
-    const res = await fetch('https://blogapi-vuov.onrender.com/api/token/', {
+    const res = await fetch(API.LOGIN, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })

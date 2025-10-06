@@ -6,6 +6,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { useState } from "react"
 import Link from "next/link";
 import { usePostContext } from "@/contexts/postContext";
+import API from "@/config/api";
 
 export default function Comments ({ dataComments, setCommentsStatus, postId }) {
   const [commentDescription, setCommentDescription] = useState('')
@@ -24,7 +25,7 @@ export default function Comments ({ dataComments, setCommentsStatus, postId }) {
     formData.append('description', commentDescription)
 
     try {
-      const response = await fetch('https://blogapi-vuov.onrender.com/api/my-comments/', {
+      const response = await fetch(API.COMMENTS, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

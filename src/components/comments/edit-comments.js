@@ -6,6 +6,7 @@ import Image from "next/image"
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useEffect, useState } from "react"
 import { FaCheckCircle } from "react-icons/fa";
+import API from "@/config/api";
 
 export default function EditCommet () {
   const [commentDescription, setCommentDescription] = useState('')
@@ -42,7 +43,7 @@ export default function EditCommet () {
 
 
     try {
-      const res = await fetch(`https://blogapi-vuov.onrender.com/api/comments/${commentToEdit.id}/`, {
+      const res = await fetch(`${API.COMMENTS}${commentToEdit.id}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -89,7 +90,7 @@ export default function EditCommet () {
     if (commentDescription) formData.append("description", commentDescription);
 
     try {
-      const res = await fetch(`https://blogapi-vuov.onrender.com/api/comments/${commentToEdit.id}/`, {
+      const res = await fetch(`${API.COMMENTS}${commentToEdit.id}/`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -106,7 +107,7 @@ export default function EditCommet () {
           prevPosts.map(p =>
             p.id === postWithCommentToEdit[0].id
               ? {...p, comments: p.comments.map(c =>
-                c.id === commentToEdit.id // change name to "comment". Name clearer
+                c.id === commentToEdit.id
                   ? updatedComment
                   : c
                   )

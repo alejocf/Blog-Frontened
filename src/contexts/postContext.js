@@ -1,5 +1,6 @@
 'use client'
 
+import { API } from '@/config/api'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const PostContext = createContext()
@@ -12,7 +13,7 @@ export function PostProvider ({ children }) {
 
   useEffect(() => {
     const get_posts = async () => {
-      const res = await fetch('https://blogapi-vuov.onrender.com/api/posts/')
+      const res = await fetch(API.POSTS)
       const data = await res.json()
       setDataPosts(data)
       setLoading('')

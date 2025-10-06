@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from "next/link"
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import API from "@/config/api";
 
 export default function CreateAccount() {
   const [name, setName] = useState('')
@@ -40,7 +41,7 @@ export default function CreateAccount() {
 
     setLoading(true)
 
-    const post = await fetch('https://blogapi-vuov.onrender.com/api/create-account/', {
+    const post = await fetch(API.CREATE_ACCOUNT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 'use client'
+import API from "@/config/api"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
@@ -9,7 +10,7 @@ export default function Users () {
   useEffect(() => {
     setLoading('Loading users...')
     const get_users = async () => {
-      const res = await fetch('https://blogapi-vuov.onrender.com/api/users/')
+      const res = await fetch(API.USERS)
       const data = await res.json()
       setDataUsers(data)
       setLoading('')
