@@ -5,6 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 
 export default function EditProfile () {
   const { user } = useAuthContext()
+
   const [bio, setBio] = useState(user.profile.bio)
   const [instagramAccount, setInstagramAccount] = useState(user.profile.instagram)
   const [birthday, setBirthday] = useState(user.profile.birthday)
@@ -104,7 +105,7 @@ export default function EditProfile () {
           className="border border-indigo-500 rounded-md p-1 mb-2"
           type="url"
           placeholder="https://www.instagram.com/your_user/"
-          value={instagramAccount}
+          value={ instagramAccount }
           onChange={(e) => setInstagramAccount(e.target.value)}
         />
 
@@ -112,7 +113,7 @@ export default function EditProfile () {
         <input
           className="border border-indigo-500 rounded-md p-1 mb-6"
           type="date"
-          value={birthday}
+          value={ birthday }
           onChange={(e) => setBirthday(e.target.value)}
         />
         <button

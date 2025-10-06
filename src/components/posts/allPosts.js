@@ -19,7 +19,7 @@ export default function Posts () {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full h-screen">
       <NewPost />
       <div className="flex flex-col" >
         <span className="text-xl font-semibold mb-5">Posts</span>

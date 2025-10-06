@@ -35,13 +35,17 @@ export default function Profile () {
               <Link href='/edit-profile/' className="flex text-indigo-500 bg-indigo-50 border border-indigo-500 rounded-sm justify-center md:p-2"  >Edit Profile</Link>
             </div>
 
-            <div className="flex">
-              <span className="flex justify-center items-center bg-gradient-to-r text-white from-indigo-600 to-indigo-500 p-2.5 rounded-full mx-1.5 " >
-                <a href={user.profile.instagram}>
-                  <GrInstagram className="text-lg" />
-                </a>
-              </span>
-            </div>
+          {
+            user.profile.instagram &&
+              <div className="flex">
+                <span className="flex justify-center items-center bg-gradient-to-r text-white from-indigo-600 to-indigo-500 p-2.5 rounded-full mx-1.5 " >
+                  <a href={user.profile.instagram}>
+                    <GrInstagram className="text-lg" />
+                  </a>
+                </span>
+              </div>
+          }
+
           </div>
         </div>
 
