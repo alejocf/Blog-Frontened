@@ -98,7 +98,7 @@ export default function PersonalPosts () {
               </div>
             :
             <div className="h-screen" >
-              You don't have any posts
+              You don&apos;t have any posts
             </div>
           }
         </div>

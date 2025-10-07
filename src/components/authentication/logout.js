@@ -27,7 +27,7 @@ export default function Logout () {
         />
 
         <span>
-          Oh no! You're leaving...
+          Oh no! You&apos;re leaving...
         </span>
 
         <span className="mb-2.5" >

@@ -20,7 +20,7 @@ export default function Header () {
             <span>Hello {user.first_name}</span>
           </>
         ) : (
-          <span>You're not logued</span>
+          <span>You&apos;re not logued</span>
         )}
         </div>
 

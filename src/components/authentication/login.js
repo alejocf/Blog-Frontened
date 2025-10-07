@@ -88,7 +88,7 @@ export default function Login () {
               </button>
             </div>
             <p className=".5 text-center text-sm/6 text-gray-400">
-              don't have an acount yet?
+              don&apos;st have an acount yet?
               <Link href="/create-account/" className="font-semibold text-indigo-400 hover:text-indigo-300"> Create one here!</Link>
             </p>
           </form>

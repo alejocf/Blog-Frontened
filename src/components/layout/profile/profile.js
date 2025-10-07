@@ -49,7 +49,7 @@ export default function Profile () {
           </div>
         </div>
 
-        : <p>You don't have an account</p>
+        : <p>You don&apos;t have an account</p>
       }
     </>
   )
